@@ -28,7 +28,7 @@ app.get("/colegiados/:id", (req, res) => {
 
 app.get("/pagos/:id", (req, res) => {
 	const bookId = req.params.id;
-	const q = `SELECT vserdoc, vnumdoc, nsubtot, ncodcli FROM movimientoscab WHERE vnumdoc LIKE '%${bookId}'`;
+	const q = `SELECT vserdoc, vnumdoc, nvaltot, ncodcli FROM movimientoscab WHERE vnumdoc LIKE '%${bookId}'`;
   
 	db.query(q, [bookId], (err, data) => {
 	  if (err) {
