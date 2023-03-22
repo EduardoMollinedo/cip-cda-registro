@@ -10,10 +10,10 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-  res.json("hello worldsdasd");
+  res.json("Hola mundo, estas conectado");
 });
 
-app.get("/books/:id", (req, res) => {
+app.get("/colegiados/:id", (req, res) => {
   const bookId = req.params.id;
   const q = "SELECT ncodcol,nestcol,ndnicol  FROM colegiados where ncodcol = ?";
 
