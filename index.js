@@ -44,6 +44,20 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
   });
   db.end();
 });
+app.get("/listaPagos/:id/:id2", (req, res) => {
+  const correlativo = req.params.id;
+  const nroSerie = req.params.id2;
+  db.connect();
+  const q = `SELECT  vserdoc, vnumdoc,  ncodcli , vtipope, nvaluni , vdesope  FROM movimientodetalle WHERE vnumdoc LIKE '%${correlativo}' and vserdoc LIKE '%${nroSerie}'	 `;
+  db.query(q, [correlativo, nroSerie], (err, data) => {
+    if (err) {
+      console.log(err);
+      return "nro de serie no encontrado";
+    }
+    return res.json(data);
+  });
+  db.end();
+});
 
 app.listen(PORT, () => {
   console.log("Connected to backend.");
