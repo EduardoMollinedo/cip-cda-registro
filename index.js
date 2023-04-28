@@ -46,7 +46,7 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
   });
 });
 
-app.get("/listaPagos/:id/:id2/", (req, res) => {
+app.get("/listaPagos/:id/:id2", (req, res) => {
 	const correlativo = req.params.id;
 	const nroSerie = req.params.id2;
 	db.connect();
@@ -63,5 +63,5 @@ app.get("/listaPagos/:id/:id2/", (req, res) => {
   });
 
 app.listen(PORT, () => {
-  console.log("Connected to backend.");
+  console.log("Conectado al backend ");
 });
