@@ -24,7 +24,6 @@ app.get("/colegiados/:id", (req, res) => {
     }
     return res.json(data);
   });
-  db.end();
 });
 
 app.get("/pagos/:id/:id2/:id3", (req, res) => {
@@ -42,7 +41,6 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
     }
     return res.json(data);
   });
-  db.end();
 });
 app.get("/listaPagos/:id/:id2", (req, res) => {
   const correlativo = req.params.id;
@@ -56,7 +54,6 @@ app.get("/listaPagos/:id/:id2", (req, res) => {
     }
     return res.json(data);
   });
-  db.end();
 });
 
 app.listen(PORT, () => {
