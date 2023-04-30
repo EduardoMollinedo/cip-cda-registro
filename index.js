@@ -44,7 +44,7 @@ app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
   const correlativo2 = req.params.correlativo;
   const nroSerie2 = req.params.nroSerie;
   const q = `SELECT vserdoc, vnumdoc, ncodcli ,vtipope, nvaluni , vdesope  FROM movimientodetalle WHERE vnumdoc LIKE '%${correlativo2}' and vserdoc LIKE '%${nroSerie2}'`;
-  db.query(q, [correlativo, nroSerie], (err, data) => {
+  db.query(q, [correlativo2, nroSerie2], (err, data) => {
     if (err) {
       console.log(err);
       return "nro de serie no encontrado";
