@@ -16,7 +16,7 @@ app.get("/colegiados/:id", async (req, res) => {
   const bookId = req.params.id;
   const q = "SELECT ncodcol,nestcol,ndnicol  FROM colegiados where ncodcol = ?";
   const [result] = await pool.query(q, [bookId]);
-  res.json(result[0]);
+  res.json(result);
 });
 
 app.get("/pagos/:id/:id2/:id3", async (req, res) => {
@@ -26,7 +26,7 @@ app.get("/pagos/:id/:id2/:id3", async (req, res) => {
 
   const q = `SELECT vserdoc, vnumdoc, nvaltot, ncodcli FROM movimientoscab WHERE vnumdoc LIKE '%${correlativo}' and vserdoc LIKE '%${nroSerie}' and nvaltot = ${monto} `;
   const [result] = await pool.query(q, [correlativo, nroSerie, monto]);
-  res.json(result[0]); 
+  res.json(result); 
 });
 
 app.get("/listaPagos/:correlativo/:nroSerie", async (req, res) => {
@@ -34,7 +34,7 @@ app.get("/listaPagos/:correlativo/:nroSerie", async (req, res) => {
 	const nroSerie2 = req.params.nroSerie;
 	const q = `SELECT vserdoc, vnumdoc, ncodcli ,vtipope, nvaluni , vdesope, ncan  FROM movimientodetalle WHERE vnumdoc LIKE '%${correlativo2}' and vserdoc LIKE '%${nroSerie2}'`;
     const [result] = await pool.query(q, [correlativo2, nroSerie2]);
-	res.json(result[0]); 
+	res.json(result); 
 
 	
   });
