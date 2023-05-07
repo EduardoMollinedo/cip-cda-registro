@@ -23,7 +23,7 @@ app.get("/colegiados/:id", (req, res) => {
     }
     return res.json(data);
   });
-  db.release();
+  db.end();
 
 });
 
@@ -41,7 +41,7 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
     }
     return res.json(data);
   });
-  db.release();
+  db.end();
 
 });
 app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
@@ -55,7 +55,7 @@ app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
     }
     return res.json(data);
   });
-  db.release();
+  db.end();
 
 });
 
