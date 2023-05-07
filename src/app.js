@@ -1,8 +1,10 @@
 import express from "express";
 import { pool } from "./db.js";
 import { PORT } from "./config.js";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 
 app.get("/", async (req, res) => {
   res.send("Bienvenido al servidor");
