@@ -23,6 +23,8 @@ app.get("/colegiados/:id", (req, res) => {
     }
     return res.json(data);
   });
+  db.release();
+
 });
 
 app.get("/pagos/:id/:id2/:id3", (req, res) => {
@@ -39,6 +41,8 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
     }
     return res.json(data);
   });
+  db.release();
+
 });
 app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
   const correlativo2 = req.params.correlativo;
@@ -51,6 +55,8 @@ app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
     }
     return res.json(data);
   });
+  db.release();
+
 });
 
 app.listen(PORT, () => {
