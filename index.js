@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 app.get("/colegiados/:id", (req, res) => {
   const bookId = req.params.id;
   const q = "SELECT ncodcol,nestcol,ndnicol  FROM colegiados where ncodcol = ?";
+  db.connect();
 
   db.query(q, [bookId], (err, data) => {
     if (err) {
@@ -24,7 +25,6 @@ app.get("/colegiados/:id", (req, res) => {
     return res.json(data);
   });
   db.end();
-
 });
 
 app.get("/pagos/:id/:id2/:id3", (req, res) => {
@@ -33,6 +33,7 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
   const monto = req.params.id3;
 
   const q = `SELECT vserdoc, vnumdoc, nvaltot, ncodcli FROM movimientoscab WHERE vnumdoc LIKE '%${correlativo}' and vserdoc LIKE '%${nroSerie}' and nvaltot = ${monto} `;
+  db.connect();
 
   db.query(q, [correlativo, nroSerie, monto], (err, data) => {
     if (err) {
@@ -42,12 +43,13 @@ app.get("/pagos/:id/:id2/:id3", (req, res) => {
     return res.json(data);
   });
   db.end();
-
 });
 app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
   const correlativo2 = req.params.correlativo;
   const nroSerie2 = req.params.nroSerie;
   const q = `SELECT vserdoc, vnumdoc, ncodcli ,vtipope, nvaluni , vdesope, ncan  FROM movimientodetalle WHERE vnumdoc LIKE '%${correlativo2}' and vserdoc LIKE '%${nroSerie2}'`;
+  db.connect();
+
   db.query(q, [correlativo2, nroSerie2], (err, data) => {
     if (err) {
       console.log(err);
@@ -56,7 +58,6 @@ app.get("/listaPagos/:correlativo/:nroSerie", (req, res) => {
     return res.json(data);
   });
   db.end();
-
 });
 
 app.listen(PORT, () => {
