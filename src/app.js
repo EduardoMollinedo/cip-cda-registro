@@ -11,10 +11,16 @@ app.get("/", async (req, res) => {
 });
 
 
+app.get("/buscarIngeniero/:id", async (req, res) => {
+	const bookId = req.params.id;
+	const q = "SELECT vapelcol, vnomcol,ncodcol,ndnicol,  FROM colegiados where ndnicol   ?";
+	const [result] = await pool.query(q, [bookId]);
+	res.json(result);
+  });
 
 app.get("/colegiados/:id", async (req, res) => {
   const bookId = req.params.id;
-  const q = "SELECT ncodcol,nestcol,ndnicol  FROM colegiados where ncodcol = ?";
+  const q = "SELECT vapecol, vnomcol,ncodcol,ndnicol,nestcol  FROM colegiados where ndnicol = ?";
   const [result] = await pool.query(q, [bookId]);
   res.json(result);
 });
