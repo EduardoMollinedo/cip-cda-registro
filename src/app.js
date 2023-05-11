@@ -20,7 +20,7 @@ app.get("/buscarIngeniero/:id", async (req, res) => {
 
 app.get("/colegiados/:id", async (req, res) => {
   const bookId = req.params.id;
-  const q = "SELECT vapecol, vnomcol,ncodcol,ndnicol,nestcol  FROM colegiados where ndnicol = ?";
+  const q = "SELECT vapecol, vnomcol,ncodcol,ndnicol,nestcol  FROM colegiados where ncodcol = ?";
   const [result] = await pool.query(q, [bookId]);
   res.json(result);
 });
