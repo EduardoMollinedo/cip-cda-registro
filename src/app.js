@@ -25,6 +25,15 @@ app.get("/colegiados/:id", async (req, res) => {
   res.json(result);
 });
 
+app.get("/buscarByName/:name", async (req, res) => {
+	const name = req.params.name;
+
+	const q = `SELECT vapecol, vnomcol,ncodcol,nestcol FROM colegiados WHERE (CONCAT(vnomcol, ' ', vapecol) LIKE '%${name}%') OR (CONCAT(vapecol, ' ', vnomcol) LIKE '%${name}%') ORDER BY vapecol ASC`;
+	const [result] = await pool.query(q, [name]);
+	res.json(result);
+  });
+  
+
 app.get("/pagos/:id/:id2/:id3", async (req, res) => {
   const correlativo = req.params.id;
   const nroSerie = req.params.id2;
