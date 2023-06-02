@@ -13,7 +13,7 @@ app.get("/", async (req, res) => {
 
 app.get("/buscarIngeniero/:id", async (req, res) => {
 	const bookId = req.params.id;
-	const q = "SELECT vapelcol, vnomcol,ncodcol,ndnicol,  FROM colegiados where ndnicol   ?";
+	const q = "SELECT vapelcol, vnomcol,ncodcol,ndnicol,  FROM colegiados where ndnicol  = ?";
 	const [result] = await pool.query(q, [bookId]);
 	res.json(result);
   });
