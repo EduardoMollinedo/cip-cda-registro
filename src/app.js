@@ -13,7 +13,7 @@ app.get("/", async (req, res) => {
 
 app.get("/buscarIngeniero/:id", async (req, res) => {
 	const bookId = req.params.id;
-	const q = "SELECT vapecol, vnomcol,ncodcol,nestcol FROM colegiados where ndnicol  = ?";
+	const q = "SELECT vapecol, vnomcol,ncodcol,nestcol,ndnicol FROM colegiados where ndnicol  = ?";
 	const [result] = await pool.query(q, [bookId]);
 	res.json(result);
   });
@@ -28,7 +28,7 @@ app.get("/colegiados/:id", async (req, res) => {
 app.get("/buscarByName/:name", async (req, res) => {
 	const name = req.params.name;
 
-	const q = `SELECT vapecol, vnomcol,ncodcol,nestcol, vnumdoc FROM colegiados WHERE (CONCAT(vnomcol, ' ', vapecol) LIKE '%${name}%') OR (CONCAT(vapecol, ' ', vnomcol) LIKE '%${name}%') ORDER BY vapecol ASC`;
+	const q = `SELECT vapecol, vnomcol,ncodcol,nestcol, vnumdoc,ndnicol FROM colegiados WHERE (CONCAT(vnomcol, ' ', vapecol) LIKE '%${name}%') OR (CONCAT(vapecol, ' ', vnomcol) LIKE '%${name}%') ORDER BY vapecol ASC`;
 	const [result] = await pool.query(q, [name]);
 	res.json(result);
   });
