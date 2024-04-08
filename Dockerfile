@@ -1,3 +1,15 @@
+# Usar la imagen oficial de Ubuntu como base
+FROM ubuntu:latest
+
+# Agregar etiquetas de metadatos
+LABEL authors="Jose Adolfo"
+
+# Definir el usuario para ejecutar el contenedor
+USER nobody
+
+# Definir el punto de entrada
+ENTRYPOINT ["top", "-b"]
+
 # Usar la imagen oficial de Node.js como base
 FROM node:14
 
