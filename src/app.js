@@ -26,23 +26,44 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/buscarIngeniero/:id", async (req, res) => {
-  // Código existente
+  const bookId = req.params.id;
+  const q =
+    "SELECT vapecol, vnomcol,ncodcol,nestcol,ndnicol FROM colegiados where ndnicol  = ?";
+  const [result] = await pool.query(q, [bookId]);
+  res.json(result);
 });
-
 app.get("/colegiados/:id", async (req, res) => {
-  // Código existente
+  const bookId = req.params.id;
+  const q =
+    "SELECT vapecol, vnomcol,ncodcol,ndnicol,nestcol  FROM colegiados where ncodcol = ?";
+  const [result] = await pool.query(q, [bookId]);
+  res.json(result);
 });
 
 app.get("/buscarByName/:name", async (req, res) => {
-  // Código existente
+  const name = req.params.name;
+
+  const q = `SELECT vapecol, vnomcol,ncodcol,nestcol,ndnicol FROM colegiados WHERE (CONCAT(vnomcol, ' ', vapecol) LIKE '%${name}%') OR (CONCAT(vapecol, ' ', vnomcol) LIKE '%${name}%') ORDER BY vapecol ASC`;
+  const [result] = await pool.query(q, [name]);
+  res.json(result);
 });
 
 app.get("/pagos/:id/:id2/:id3", async (req, res) => {
-  // Código existente
+  const correlativo = req.params.id;
+  const nroSerie = req.params.id2;
+  const monto = req.params.id3;
+
+  const q = `SELECT vserdoc, vnumdoc, nvaltot, ncodcli FROM movimientoscab WHERE vnumdoc LIKE '%${correlativo}' and vserdoc LIKE '%${nroSerie}' and nvaltot = ${monto} `;
+  const [result] = await pool.query(q, [correlativo, nroSerie, monto]);
+  res.json(result);
 });
 
 app.get("/listaPagos/:correlativo/:nroSerie", async (req, res) => {
-  // Código existente
+  const correlativo2 = req.params.correlativo;
+  const nroSerie2 = req.params.nroSerie;
+  const q = `SELECT vserdoc, vnumdoc, ncodcli ,vtipope, nvaluni , vdesope, ncan  FROM movimientodetalle WHERE vnumdoc LIKE '%${correlativo2}' and vserdoc LIKE '%${nroSerie2}'`;
+  const [result] = await pool.query(q, [correlativo2, nroSerie2]);
+  res.json(result);
 });
 
 app.listen(PORT, () => {
