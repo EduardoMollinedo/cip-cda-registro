@@ -9,7 +9,8 @@ app.use(cors());
 // Endpoint para el healthy check
 app.get("/api/v1/conectividades", async (req, res) => {
   // Aquí puedes realizar cualquier verificación necesaria para el estado de tu API
-  res.send("API is healthy");
+  res.status(200).json({ status: "ok" });
+  //  res.send("API is healthy");
 });
 
 // Agregando subpath cip-cda-registro
