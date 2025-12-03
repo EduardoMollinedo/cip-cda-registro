@@ -25,28 +25,86 @@ app.use("/cip-cda-registro", router);
 app.get("/", async (req, res) => {
   res.send("Bienvenido al servidor");
 });
-
 app.get("/buscarIngeniero/:id", async (req, res) => {
-  const bookId = req.params.id;
-  const q =
-    "SELECT vapecol, vnomcol,ncodcol,nestcol,ndnicol FROM colegiados where ndnicol  = ?";
-  const [result] = await pool.query(q, [bookId]);
-  res.json(result);
+  const id = req.params.id;
+
+  const q = `
+    SELECT 
+      vapecol,
+      vnomcol,
+      ncodcol,
+      nestcol,
+      CASE
+        WHEN ndnicol IS NULL OR ndnicol = '' OR ndnicol = '0' THEN vcarext
+        ELSE ndnicol
+      END AS ndnicol,
+      vcarext
+    FROM colegiados
+    WHERE ndnicol = ? OR vcarext = ?;
+  `;
+
+  try {
+    const [result] = await pool.query(q, [id, id]);
+    res.json(result);
+  } catch (error) {
+    console.error("Error ejecutando consulta:", error);
+    res.status(500).json({ error: "Error en la consulta SQL" });
+  }
 });
 app.get("/colegiados/:id", async (req, res) => {
   const bookId = req.params.id;
-  const q =
-    "SELECT vapecol, vnomcol,ncodcol,ndnicol,nestcol  FROM colegiados where ncodcol = ?";
-  const [result] = await pool.query(q, [bookId]);
-  res.json(result);
-});
 
+  const q = `
+    SELECT 
+      vapecol,
+      vnomcol,
+      ncodcol,
+      CASE
+        WHEN ndnicol IS NULL OR ndnicol = '' OR ndnicol = '0' THEN vcarext
+        ELSE ndnicol
+      END AS ndnicol,
+      nestcol
+    FROM colegiados 
+    WHERE ncodcol = ?;
+  `;
+
+  try {
+    const [result] = await pool.query(q, [bookId]);
+    res.json(result);
+  } catch (error) {
+    console.error("Error ejecutando consulta:", error);
+    res.status(500).json({ error: "Error en la consulta SQL" });
+  }
+});
 app.get("/buscarByName/:name", async (req, res) => {
   const name = req.params.name;
 
-  const q = `SELECT vapecol, vnomcol,ncodcol,nestcol,ndnicol FROM colegiados WHERE (CONCAT(vnomcol, ' ', vapecol) LIKE '%${name}%') OR (CONCAT(vapecol, ' ', vnomcol) LIKE '%${name}%') ORDER BY vapecol ASC`;
-  const [result] = await pool.query(q, [name]);
-  res.json(result);
+  const q = `
+    SELECT 
+      vapecol,
+      vnomcol,
+      ncodcol,
+      nestcol,
+      CASE
+        WHEN ndnicol IS NULL OR ndnicol = '' OR ndnicol = '0' THEN vcarext
+        ELSE ndnicol
+      END AS ndnicol
+    FROM colegiados
+    WHERE 
+      CONCAT(vnomcol, ' ', vapecol) LIKE ? OR 
+      CONCAT(vapecol, ' ', vnomcol) LIKE ?
+    ORDER BY vapecol ASC;
+  `;
+
+  const likeValue = `%${name}%`;
+
+  try {
+    const [result] = await pool.query(q, [likeValue, likeValue]);
+    res.json(result);
+  } catch (error) {
+    console.error("Error ejecutando consulta:", error);
+    res.status(500).json({ error: "Error en la consulta SQL" });
+  }
 });
 
 app.get("/pagos/:id/:id2/:id3", async (req, res) => {
